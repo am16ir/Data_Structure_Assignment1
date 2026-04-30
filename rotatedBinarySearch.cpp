@@ -40,10 +40,34 @@ int search_rotated(vector<int>& v, int target, int peak){
         return binary_search(v , target , peak + 1 , v.size() - 1);
     }
 }
+// best time complexity but can't handle duplicates
+// int peak_pos(vector<int>&v , int l , int h , int n){
+//     if (l == h)
+//     return h;
+    
+//     int mid = (l+h)/2;
+//     if (v[mid] > v[(mid + 1)%n])
+//         return mid;
+
+
+//     if (v[mid] > v[h]){
+//         l = mid + 1;
+//         return peak_pos(v,l,h,n);
+//     }
+//     else if (v[mid] < v[h]) {
+//         h = mid;
+//         return peak_pos(v,l,h,n);
+//     }
+//     else{
+//         h--;
+//         return peak_pos(v,l,h,n);
+//     } 
+    
+// }
 
 int main() {
     cout << "Hello, World!" << endl;
-    vector<int>v =  {5 , 6, 6 , 6 , 7, 7 , 1 , 2, 3 ,4};
+    vector<int>v =  {2 , 2, 2 , 2 , 3 , 2 , 2};
     int peak = 0;
     for (int i = 1 ; i < v.size(); i++){
         if (v[peak] <= v[i]){
@@ -51,8 +75,9 @@ int main() {
             peak = i;
         }
     }
+    // int peak = peak_pos(v , 0,v.size()-1,v.size());
     cout<<peak<<"\n";
-    cout << search_rotated(v , 6 , peak)<<"\n";
+    cout << search_rotated(v , 3 , peak)<<"\n";
     cout << "Element To Element Comparison: "<<comp_cnt;
     return 0;
 }

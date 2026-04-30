@@ -19,10 +19,6 @@ int main() {
     }
     
     for(int x : ans){
-        // if (x == INT32_MAX){
-        //     cout<<-1<<" ";
-        //     continue;
-        // }
         cout<<x<<" ";
     }
     return 0;

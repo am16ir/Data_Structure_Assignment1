@@ -76,7 +76,7 @@ int main() {
         }
     }
     // int peak = peak_pos(v , 0,v.size()-1,v.size());
-    cout<<peak<<"\n";
+    cout <<"peak is: "<<peak<<"\n";
     cout << search_rotated(v , 3 , peak)<<"\n";
     cout << "Element To Element Comparison: "<<comp_cnt;
     return 0;

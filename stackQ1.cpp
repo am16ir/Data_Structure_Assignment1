@@ -15,6 +15,8 @@ string postfix(string input){
             }
         }
         else if (input[i] == '+' || input[i] == '-'){
+            if (i == 0 || input[i-1] == '(')ans+='0'; // for unary op -1 -> 0-1 
+
             if (!st.empty() && st.top() != '('){
                 ans+=st.top();
                 st.pop();
@@ -70,8 +72,9 @@ int ans(string s){
 int main() {
     string input = "(100+(4+5+2)-3)-(6+8)"; // 9 - 14 = -5 // 108 - 14 = 94
     string input2 = "-1-(2+3)"; // -6
+    string input3 = "1-(-2)";// 3
 
-    string post = postfix(input);
+    string post = postfix(input3);
     cout<<post<<"\n";
     int res = ans(post);
     cout<<res<<"\n";

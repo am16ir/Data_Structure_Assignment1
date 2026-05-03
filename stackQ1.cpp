@@ -9,6 +9,10 @@ string postfix(string input){
     for (int i = 0;i<input.size();i++){
         if ((input[i] - '0') <= 9 && (input[i] - '0') >= 0){
             ans+=input[i];
+            // not single digit number
+            if (i < input.size()-1 && (input[i+1] - '0') <= 9 && (input[i+1] - '0') >= 0){
+                ans+='/';
+            }
         }
         else if (input[i] == '+' || input[i] == '-'){
             if (!st.empty() && st.top() != '('){
@@ -43,7 +47,7 @@ int ans(string s){
         if (s[i] == '+' || s[i] == '-'){
             int y = st.top() ; st.pop();
             if (st.empty()){
-                st.push(-1); // handles unary op 
+                st.push(-y); // handles unary op 
                 continue;
             }
             int x = st.top() ; st.pop();
@@ -51,13 +55,20 @@ int ans(string s){
             if (s[i] == '+')st.push(x+y);
             else st.push(x-y);
         }
-        else st.push(s[i] - '0');
+        else if ((s[i] - '0') <= 9 && (s[i] - '0') >= 0){
+            int num = s[i] - '0';
+            while (i+1 < s.size() && s[i+1] =='/' ){
+                i++;
+                num = num * 10 + (s[++i] - '0');
+            }
+            st.push(num);
+        }
     }
     return st.top();
 }
 
 int main() {
-    string input = "(1+(4+5+2)-3)-(6+8)"; // 9 - 14 = -5
+    string input = "(100+(4+5+2)-3)-(6+8)"; // 9 - 14 = -5 // 108 - 14 = 94
     string input2 = "-1-(2+3)"; // -6
 
     string post = postfix(input);

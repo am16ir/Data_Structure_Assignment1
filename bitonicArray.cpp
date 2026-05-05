@@ -1,72 +1,65 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
 
 using namespace std;
 
-int comp , swaps;
+void selectionSortDescending(std::vector<int>& arr, int left, int right) {
+    int n = right;
+    for (int i = left; i < n - 1; i++) {
+        int max_idx = i;
 
-void selection_sort(vector<int>&v , int start , int n){
-    for (int i = start ;i < n ; i++){
-        int greatest = i;
-        for (int j = i+1 ; j < n ;j++){
-            comp++;
-            if (v[greatest] < v[j]) {
-                greatest = j;
+        for (int j = i + 1; j < n; j++) {
+            if (arr[j] > arr[max_idx]) {
+                max_idx = j;
             }
         }
-        swap (v[greatest] , v[i]);
-        swaps++;
-    }
-}
 
-
-void bubble_sort(vector<int>&v , int n){
-    for (int i = 0 ; i < n ; i++){
-        for (int j = n; j > i; j--){
-            comp++;
-            if (v[j] < v[j - 1]){
-                swaps++;
-                swap(v[j] , v[j-1]);
-            }
+        if (max_idx != i) {
+            swap(arr[i], arr[max_idx]);
         }
     }
 }
 
+void bubbleSort(vector<int>& arr, int left, int mid) {
+    int n = mid + 1;
+    bool swapped;
+    for (int i = 0; i < n - 1; i++) {
+        swapped = false;
+        for (int j = 0; j < n - 1 - i; j++) {
+            if (arr[j] > arr[j + 1]) {
+                swap(arr[j], arr[j + 1]);
+                swapped = true;
+            }
+        }
+        if (!swapped) break;
+    }
+}
+
+void bitonicSort(vector<int>& arr) {
+    int n = arr.size();
+    int mid = n/2;
+    bubbleSort(arr, 0, mid);
+    selectionSortDescending(arr, mid+1, n);
+}
+
+int linearSearch(vector<int>& v, int target) {
+    for(int i = 0;i<v.size();i++) {
+        if(v[i] == target) return i;
+    }
+    return -1;
+}
 
 int main() {
-    cout<<"Enter Size of the array: ";
-    int n;
-    cin>>n;
-    vector<int>v(n);
-    cout<<"Enter the array: ";
-    for(int i = 0;i<n;i++){
-        cin>>v[i];
-    }
-    bubble_sort(v,n/2);
-    selection_sort(v,n/2 + 1, n);
+    vector<int> v = {15, 2, 8, 1, 7, 4, 6, 3};
+    bitonicSort(v);
+    int bitonic = max(v[v.size()/2], v[(v.size()/2) + 1]);
+    cout<<"BITONIC POINT (value = "<<bitonic<<")"<<endl;
+    cout<<"BITONIC sorted array:"<<endl;
+    for(int el: v) cout<<el<<' ';
 
-    int bitonic_element = v[0];
-    for (int i = 1;i < v.size();i++){
-        if (v[i] < v[i-1]){
-            bitonic_element = v[i-1];
-            break;
-        }
-    } 
-    cout<<"bitonic array: ";
-    for (int x : v)cout<<x<<" ";
-    cout<<"\nEnter a target to search: ";
-    int target;
-    cin>>target;
+    int bPnt = linearSearch(v, 15);
+    cout<<'\n'<<bPnt;
 
-    bool found = 0;
-    for (int i = 0;i<n;i++){
-        if (v[i] == target){
-            cout<<"Found at index "<<i<<"\n";
-            found = 1;
-            break;
-        }
-    }
-    if (!found)cout<<-1<<"\n";
-    cout<<"bitonic element: "<<bitonic_element<<"\n";
-    cout<<"number of comparisons: "<<comp<<" and swaps :"<<swaps<<"\n";
+
     return 0;
 }
